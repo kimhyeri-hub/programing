@@ -1,6 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-
+<%@ page import ="com.board.dto.*" %>
+<%@ page import ="com.board.dao.*" %>
+<%
+	int num = Integer.parseInt(request.getParameter("num"));
+	
+	BoardDto dto =new BoardDao().selectOne(num,true);
+	
+	dto.setTitle(dto.getTitle().replace("","&nbsp;"));
+	dto.setContent(dto.getContent().replace("","&nbsp;").replace("\n","<br>"));
+	
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -16,32 +26,32 @@
 <table>
     <tr>
         <th>제목</th>
-        <td>글 제목 2</td>
+        <td><%=dto.getTitle()%></td>
     </tr>
     <tr>
         <th>작성자</th>
-        <td>장길산</td>
+        <td><%=dto.getWriter() %></td>
     </tr>
     <tr>
         <th>작성일시</th>
-        <td>2020-02-06 14:32:25</td>
+        <td><%=dto.getRegtime() %>></td>
     </tr>
     <tr>
         <th>조회수</th>
-        <td>31</td>
+        <td><%=dto.getHits() %></td>
     </tr>
     <tr>
         <th>내용</th>
-        <td>글의 내용입니다.</td>
+        <td><%=dto.getContent() %>></td>
     </tr>
 </table>
 
 <br>
 <input type="button" value="목록보기" onclick="location.href='list.jsp'">
 <input type="button" value="수정"
-       onclick="location.href='write.jsp?num=2'">
+       onclick="location.href='write.jsp?num=<%=num%>'">
 <input type="button" value="삭제"
-       onclick="location.href='delete.jsp?num=2'">
+       onclick="location.href='delete.jsp?num=<%=num%>'">
 
 </body>
 </html>
